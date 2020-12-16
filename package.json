@@ -1,0 +1,3 @@
+{
+    "dev": "npm run generate-imported-components && parcel app/index.html --hmr-port 1235"
+}

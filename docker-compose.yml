@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  nodejs-server:
+    build:
+      context: ./src/server
+    ports:
+      - "8000:8000"
+    container_name: node-api
+    volumes:
+      - ./src/server:/usr/src/app/server
+      - /usr/src/server/node_modules
+  react-ui:
+    build:
+      context: ./src/client
+    ports:
+      - "3000:3000"
+    container_name: react-ui
+    stdin_open: true
+    volumes:
+      - ./src/client:/usr/src/app/client
+      - /usr/src/client/node_modules
+
+# Since react-scripts start opens browser we need stdin_open true to start in interactive mode

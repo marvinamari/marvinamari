@@ -3,12 +3,15 @@ services:
   nodejs-server:
     build:
       context: ./src/server
+    restart: always
     ports:
       - "8000:8000"
     container_name: node-api
     volumes:
       - ./src/server:/usr/src/app/server
       - /usr/src/server/node_modules
+    depends_on:
+      - mongodb
   react-ui:
     build:
       context: ./src/client
@@ -19,5 +22,14 @@ services:
     volumes:
       - ./src/client:/usr/src/app/client
       - /usr/src/client/node_modules
-
+    links:
+      - nodejs-server
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    volumes:
+      - ./data-node:/data/db
+    ports:
+      - "27017:27017"
 # Since react-scripts start opens browser we need stdin_open true to start in interactive mode

@@ -3,21 +3,28 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const mongoose = require('mongoose')
 require('dotenv').config()
+// import routes
+const blogRoutes = require('./routes/blog')
 
 // invoke the app
 const app = express()
+
+// connect db
+mongoose.connect(process.env.DATABASE_LOCAL, {useNewUrlParser: true, useCreateIndex: true,
+  useFindAndModify: false, useUnifiedTopology: true}).then(() => console.log('\nDB connected...\n'));
 
 // middleware are applied using the use method
 app.use(morgan('dev')) //dev designates development mode
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(cors())
-
-// routes
-app.get('/api', (req, res) => { //app.get takes two params (endPoint, function we are using)
-        res.json({time: Date().toString()}) //respond with time in json format for each request to endpoint
-})
+//cors for purpose of avoiding cors errors
+if(process.env.NODE_ENV == 'development') {
+  app.use(cors({ origin: `${process.env.CLIENT_URL}` }));
+}
+// routes middleware
+app.use(blogRoutes);
 
 // port
 const port = process.env.PORT || 8000 //access port var from env file or use 8000 as default

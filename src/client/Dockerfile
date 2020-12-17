@@ -1,8 +1,6 @@
 # Downoad node latest
 FROM node
 
-RUN npm install -g react react-scripts
-
 # Create directories
 RUN mkdir -p /usr/src/app/client
 

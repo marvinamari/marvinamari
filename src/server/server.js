@@ -24,7 +24,7 @@ if(process.env.NODE_ENV == 'development') {
   app.use(cors({ origin: `${process.env.CLIENT_URL}` }));
 }
 // routes middleware
-app.use(blogRoutes);
+app.use('/api', blogRoutes);
 
 // port
 const port = process.env.PORT || 8000 //access port var from env file or use 8000 as default

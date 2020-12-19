@@ -3,17 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
   "scripts": {
-    "start": "",
-    "build": "",
-    "test": "",
-    "eject": ""
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
-  "proxy": "http://nodejs-server:8000",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "next": "^10.0.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
 }

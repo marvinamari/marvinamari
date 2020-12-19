@@ -1,8 +1,6 @@
 # Download node latest
 FROM node
 
-RUN npm install -g express mongoose body-parser cookie-parser morgan nodemon dotenv cors
-
 # Create directories
 RUN mkdir -p /usr/src/app/server
 

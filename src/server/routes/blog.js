@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
 // No we can handle any incoming routes
-const { time } = require('../controllers/blog')
+const {
+  time
+} = require('../controllers/blogController')
 
 router.get('/', time);
 

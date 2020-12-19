@@ -18,5 +18,3 @@ EXPOSE 3000
 
 # Run the app when the container launches
 CMD ["npm", "start"]
-
-

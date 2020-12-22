@@ -14,7 +14,7 @@ exports.userSignupValidator = [
   .isLength({
     min: 9
   })
-  .withMessage('Password must be 9 characters long.'),
+  .withMessage('Password must be minimum 9 characters.'),
   check('username')
   .not()
   .isEmpty()
@@ -32,5 +32,5 @@ exports.userSigninValidator = [
   .isLength({
     min: 9
   })
-  .withMessage('Password must be 9 characters long.')
+  .withMessage('Password must be minimum 9 characters long.')
 ];

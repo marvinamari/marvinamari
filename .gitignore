@@ -2,3 +2,4 @@ node_modules
 data-node
 src/server/.env
 .next
+.env.local

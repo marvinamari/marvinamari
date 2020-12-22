@@ -8,6 +8,7 @@ require('dotenv').config();
 // import routes
 const blogRoutes = require('./routes/blog');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 
 // invoke the app
 const app = express()
@@ -26,6 +27,7 @@ if(process.env.NODE_ENV == 'development') { //cors for purpose of avoiding cors 
 // routes middleware
 app.use('/api', blogRoutes);
 app.use('/api', authRoutes);
+app.use('/api', userRoutes);
 
 // port
 const port = process.env.PORT || 8000 //access port var from env file or use 8000 as default

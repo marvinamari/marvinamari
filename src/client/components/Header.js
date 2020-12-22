@@ -32,6 +32,20 @@ const Header = () => {
                 <a>Connect</a>
               </Link>
             </li>
+            {isAuth() && isAuth().role == 0 && (
+              <li>
+              <Link href="/user">
+              {`${isAuth().name}'s Dashboard`}
+             </Link>
+             </li>
+             )}
+            {isAuth() && isAuth().role == 1 && (
+              <li>
+              <Link href="/admin">
+              {`${isAuth().name}'s Dashboard`}
+             </Link>
+             </li>
+             )}
             {isAuth() && (
               <li style={{cursor: 'pointer'}}>
              <a onClick={() => signout(() => Router.replace(`/signin`))}>Signout</a>

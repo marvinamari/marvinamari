@@ -1,3 +1,7 @@
 h2 {
     color: var(--hello);
 }
+
+#nprogress .bar {
+    height: 4px !important;
+}

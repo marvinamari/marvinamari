@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
+const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.signup = (req, res) => {
   User.findOne({
@@ -40,7 +41,7 @@ exports.signup = (req, res) => {
     newUser.save((err, success) => {
       if (err) {
         return res.status(400).json({
-          error: err
+          error: errorHandler(err)
         })
       }
       res.json({

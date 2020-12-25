@@ -25,7 +25,7 @@ router.post('/signin', userSigninValidator, runValidation, signin);
 router.get('/signout', signout);
 router.get('/secret', requireSignin, (req, res) => {
   res.json({
-    message: 'accessing backend'
+    user: req.auth
   });
 });
 

@@ -4,10 +4,10 @@ import Router from 'next/router';
 import dynamic from 'next/dynamic';
 import { withRouter } from 'next/router';
 import { getCookie, isAuth } from '../../actions/auth';
-import { getCategories } from '../../actions/category';
-import { getTags } from '../../actions/tag';
-import { createBlog } from '../../actions/blog';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import { getCategories } from '../../actions/CategoryActions';
+import { getTags } from '../../actions/TagActions';
+import { createBlog } from '../../actions/BlogActions';
+const ReactQuill = dynamic(() => import('react-quill'), {ssr: false});
 import '../../node_modules/react-quill/dist/quill.snow.css';
 import { QuillModules, QuillFormats } from '../../helpers/quill';
 
@@ -40,8 +40,12 @@ const CreateBlog = ({ router }) => {
         hidePublishButton: false
     });
 
-    const { error, sizeError, success, formData, title, hidePublishButton } = values;
-    const token = getCookie('token');
+    const { error,
+            sizeError,
+            success,
+            formData,
+            title,
+            hidePublishButton } = values;
 
     useEffect(() => {
         setValues({ ...values, formData: new FormData() });
@@ -69,8 +73,10 @@ const CreateBlog = ({ router }) => {
         });
     };
 
-    const publishBlog = e => {
-        e.preventDefault();
+    const token = getCookie('token');
+
+    const publishBlog = event => {
+        event.preventDefault();
         // console.log('ready to publishBlog');
         createBlog(formData, token).then(data => {
             if (data.error) {
@@ -84,19 +90,18 @@ const CreateBlog = ({ router }) => {
         });
     };
 
-    const handleChange = name => e => {
+    const handleChange = name => event => {
         // console.log(e.target.value);
-        const value = name === 'photo' ? e.target.files[0] : e.target.value;
+        const value = name === 'photo' ? event.target.files[0] : event.target.value;
         formData.set(name, value);
         setValues({ ...values, [name]: value, formData, error: '' });
     };
 
-    const handleBody = e => {
-        // console.log(e);
-        setBody(e);
-        formData.set('body', e);
+    const handleBody = event => {
+        setBody(event);
+        formData.set('body', event);
         if (typeof window !== 'undefined') {
-            localStorage.setItem('blog', JSON.stringify(e));
+            localStorage.setItem('blog', JSON.stringify(event));
         }
     };
 
@@ -119,17 +124,17 @@ const CreateBlog = ({ router }) => {
     const handleTagsToggle = t => () => {
         setValues({ ...values, error: '' });
         // return the first index or -1
-        const clickedTag = checked.indexOf(t);
-        const all = [...checkedTag];
+        const clickedTag = checkedTag.indexOf(t);
+        const allTags = [...checkedTag];
 
         if (clickedTag === -1) {
-            all.push(t);
+            allTags.push(t);
         } else {
-            all.splice(clickedTag, 1);
+            allTags.splice(clickedTag, 1);
         }
-        console.log(all);
-        setCheckedTag(all);
-        formData.set('tags', all);
+        console.log(allTags);
+        setCheckedTag(allTags);
+        formData.set('tags', allTags);
     };
 
     const showCategories = () => {
@@ -167,23 +172,24 @@ const CreateBlog = ({ router }) => {
             {success}
         </div>
     );
-
+// TODO: Enhance editor
     const createBlogForm = () => {
         return (
             <form onSubmit={publishBlog}>
                 <div className="form-group">
                     <label className="text-muted">Title</label>
-                    <input type="text" className="form-control" value={title} onChange={handleChange('title')} />
+                    <input type="text"
+                           className="form-control"
+                           value={title}
+                           onChange={handleChange('title')} />
                 </div>
 
                 <div className="form-group">
-                    <ReactQuill
-                        modules={QuillModules}
-                        formats={QuillFormats}
-                        value={body}
-                        placeholder="Write something amazing..."
-                        onChange={handleBody}
-                    />
+                   <ReactQuill value={body}
+                               modules={QuillModules}
+                               formats={QuillFormats}
+                               placeholder="Write something awesome..."
+                               onChange={handleBody}/>
                 </div>
 
                 <div>

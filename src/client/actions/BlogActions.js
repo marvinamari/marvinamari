@@ -15,15 +15,36 @@ export const createBlog = (blog, token) => {
         .catch(err => console.log(err));
 };
 
-export const listBlogsWithCategoriesAndTags = () => {
-    return fetch(`${API}/blogs-categories-tags`, {
+export const listBlogsWithCategoriesAndTags = (skip, limit) => {
+
+    const data = {
+        limit,
+        skip
+    };
+//TODO change URL to localhost
+    var url = `${API}/blogs-categories-tags`
+    console.log("API URL", url, "Params", JSON.stringify(data));
+    return fetch(url, {
         method: 'POST',
         headers: {
-            Accept: 'application/json'
-        }
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
     })
         .then(response => {
+            console.log(response);
             return response.json();
         })
         .catch(err => console.log(err));
 };
+
+export const singleBlog = slug => {
+    return fetch(`${API}/blog/${slug}`, {
+        method: 'GET'
+    })
+    .then (response => {
+        return response.json()
+    })
+    .catch(err => console.log(err));
+}

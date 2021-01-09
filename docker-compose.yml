@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  nodejs-server:
+  node-api:
     build:
       context: ./src/server
     restart: always
@@ -23,8 +23,8 @@ services:
     volumes:
       - ./src/client:/usr/src/app/client
       - /usr/src/client/node_modules
-    links:
-      - nodejs-server
+    depends_on:
+      - node-api
   mongodb:
     image: mongo
     restart: always
